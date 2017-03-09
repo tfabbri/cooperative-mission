@@ -9,11 +9,8 @@ for ARGI; do
     if [ "${ARGI}" = "--help" -o "${ARGI}" = "-h" ] ; then
 	printf "%s [SWITCHES] [time_warp]   \n" $0
 	printf "  --just_make, -j    \n" 
-	printf "  --hazards=file.txt \n" 
 	printf "  --help, -h         \n" 
 	exit 0;
-    elif [ "${ARGI:0:10}" = "--hazards=" ] ; then
-        HAZARD_FILE="${ARGI#--hazards=*}"
     elif [ "${ARGI//[^0-9]/}" = "$ARGI" -a "$TIME_WARP" = 1 ]; then 
         TIME_WARP=$ARGI
     elif [ "${ARGI}" = "--just_build" -o "${ARGI}" = "-j" ] ; then
@@ -24,13 +21,6 @@ for ARGI; do
     fi
 done
 
-if [ -f $HAZARD_FILE ]; then
-  echo "Using Hazard File $HAZARD_FILE"
-else
-  echo "$HAZARD_FILE not found. Exiting"
-  exit 0
-fi 
-
 #-------------------------------------------------------
 #  Part 2: Create the .moos and .bhv files. 
 #-------------------------------------------------------
@@ -40,7 +30,6 @@ START_POS1="0,0"
 START_POS2="0,0"  
 
 # What is nsplug? Type "nsplug --help" or "nsplug --manual"
-
 nsplug meta_shoreside.moos targ_shoreside.moos -f WARP=$TIME_WARP \
    VNAME="shoreside" HAZARD_FILE=$HAZARD_FILE   
 
@@ -48,13 +37,9 @@ nsplug meta_vehicle.moos targ_$VNAME1.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME1      START_POS=$START_POS1                              \
    VPORT="9001"       SHARE_LISTEN="9301"    
 
-#nsplug meta_vehicle.bhv targ_$VNAME1.bhv -f VNAME=$VNAME1 START_POS=$START_POS1 
-
 nsplug meta_vehicle.moos targ_$VNAME2.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME2      START_POS=$START_POS2                              \
    VPORT="9002"       SHARE_LISTEN="9302"    
-
-#nsplug meta_vehicle.bhv targ_$VNAME2.bhv -f VNAME=$VNAME2 START_POS=$START_POS2 
 
 if [ ${JUST_MAKE} = "yes" ] ; then
     exit 0
