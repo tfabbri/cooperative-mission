@@ -31,15 +31,15 @@ START_POS2="0,0"
 
 # What is nsplug? Type "nsplug --help" or "nsplug --manual"
 nsplug meta_shoreside.moos targ_shoreside.moos -f WARP=$TIME_WARP \
-   VNAME="shoreside" HAZARD_FILE=$HAZARD_FILE   
+   VNAME="shoreside" HAZARD_FILE=$HAZARD_FILE   VPORT=9000 MODEM_ID=3
 
 nsplug meta_vehicle.moos targ_$VNAME1.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME1      START_POS=$START_POS1                              \
-   VPORT="9001"       SHARE_LISTEN="9301"    
+   VPORT="9001"       SHARE_LISTEN="9301"   MODEM_ID=1 
 
 nsplug meta_vehicle.moos targ_$VNAME2.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME2      START_POS=$START_POS2                              \
-   VPORT="9002"       SHARE_LISTEN="9302"    
+   VPORT="9002"       SHARE_LISTEN="9302"   MODEM_ID=1 
 
 if [ ${JUST_MAKE} = "yes" ] ; then
     exit 0
