@@ -7,14 +7,13 @@ ProcessConfig = pAcommsHandler
     app_tick: 10   
     comm_tick: 10  
     verbosity: VERBOSE 
-    show_gui: true  
+    show_gui: false  
     use_binary_protobuf: false 
     moos_parser_technique: TECHNIQUE_PREFIXED_PROTOBUF_TEXT_FORMAT  
     initializer {   
       type: INI_DOUBLE #(INI_DOUBLE, INI_STRING)
       moos_var: "SOME_MOOS_VAR"   
       global_cfg_var: "LatOrigin"  
-                                   
       dval: 3.454  # Value to write for type==INI_DOUBLE 
       sval: "a string"  # Value to write for type==INI_STRING 
       trim: true  # Trim whitespace from front and back of string 
@@ -46,22 +45,77 @@ ProcessConfig = pAcommsHandler
     technique: CONTINUALLY_RESTART_DRIVER  #  
     driver_backoff_sec: 60  # Seconds to wait until restarting a 
   }
-  //mac_cfg {  # Configure the acoustic Medium Access Control 
-  //  modem_id: $(MODEM_ID) 
-  //  type: MAC_FIXED_DECENTRALIZED 
-  //  start_cycle_in_middle: true 
-  //  ref_time_type: REFERENCE_START_OF_DAY   
-  //  slot { 
-  //         src: 1 
-  //         type: DRIVER_SPECIFIC  
-  //         slot_seconds:10
-  //         [goby.moos.protobuf.type] : UFIELD_DRIVER_POLL
-  //  }
-  //  slot { 
-  //         src: 2 
-  //         type: DRIVER_SPECIFIC  
-  //         slot_seconds:10
-  //         [goby.moos.protobuf.type] : UFIELD_DRIVER_POLL
+  mac_cfg {  # Configure the acoustic Medium Access Control 
+    modem_id: $(MODEM_ID) 
+    type: MAC_FIXED_DECENTRALIZED 
+    start_cycle_in_middle: true 
+    ref_time_type: REFERENCE_START_OF_DAY   
+    slot { 
+           src: 1 
+           type: DATA  
+           slot_seconds:10
+    }
+    slot { 
+           src: 2 
+           type: DATA  
+           slot_seconds:10
+    }
+  }
+  //queue_cfg {
+  //  message_entry {
+  //    protobuf_name : "goby.acomms.protobuf.ModemTransmission"
+  //    ack : true
+  //    blackout_time : 0
+  //    max_queue : 100
+  //    newest_first : true
+  //    ttl : 0
+  //    value_base : 1
   //  }
   //}
+  //translator_entry {
+  //  protobuf_name : "goby.acomms.protobuf.ModemTransmission"
+  //  trigger {
+  //      type : TRIGGER_PUBLISH
+  //      moos_var : "TEMP_MESSAGE_IN"
+  //  }
+  //  create {
+  //      technique : TECHNIQUE_COMMA_SEPARATED_KEY_EQUALS_VALUE_PAIRS
+  //      moos_var  : "PROVA"
+  //  }
+  //  publish {
+  //      technique : TECHNIQUE_PREFIXED_PROTOBUF_TEXT_FORMAT
+  //      moos_var  : "ACOMMS_UFIELD_DRIVER_IN"
+  //  }
+  //}
+  load_proto_file : "/home/tom/Git/goby/include/goby/acomms/protobuf/modem_message.proto"
+  load_shared_library : "/home/tom/Git/goby/lib/libgoby_pb.so"
+}
+
+ProcessConfig = pTranslator 
+{
+  common {
+    log: true  
+    log_path: "./"   
+    log_verbosity: DEBUG1  
+    app_tick: 10   
+    comm_tick: 10  
+    verbosity: VERBOSE
+  }
+  translator_entry {
+    protobuf_name : "goby.acomms.protobuf.ModemTransmission"
+    trigger {
+	type : TRIGGER_PUBLISH
+        moos_var : "TEMP_MESSAGE_IN"
+    }
+    create {
+	technique : TECHNIQUE_COMMA_SEPARATED_KEY_EQUALS_VALUE_PAIRS
+	moos_var  : "PROVA"
+    }
+    publish {
+	technique : TECHNIQUE_PREFIXED_PROTOBUF_TEXT_FORMAT
+        moos_var  : "ACOMMS_UFIELD_DRIVER_IN"
+    }
+  }
+  //load_proto_file : "/home/tom/Git/goby/include/goby/acomms/protobuf/modem_message.proto"
+  load_shared_library : "/home/tom/Git/goby/lib/libgoby_pb.so"
 }
