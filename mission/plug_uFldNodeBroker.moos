@@ -12,10 +12,10 @@ ProcessConfig = uFldNodeBroker
   bridge = src=VIEW_POINT
   bridge = src=VIEW_SEGLIST
   bridge = src=APPCAST
-  bridge = src=UHZ_CLASSIFY_REQUEST
-  bridge = src=UHZ_SENSOR_REQUEST
-  bridge = src=UHZ_CONFIG_REQUEST
-  bridge = src=HAZARDSET_REPORT
+//  bridge = src=UHZ_CLASSIFY_REQUEST
+//  bridge = src=UHZ_SENSOR_REQUEST
+//  bridge = src=UHZ_CONFIG_REQUEST
+//  bridge = src=HAZARDSET_REPORT
   bridge = src=NODE_REPORT_LOCAL,  alias=NODE_REPORT
   bridge = src=NODE_MESSAGE_LOCAL, alias=NODE_MESSAGE
 }
