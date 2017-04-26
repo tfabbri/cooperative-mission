@@ -24,7 +24,7 @@ Processconfig = ANTLER
   Run = uFldNodeBroker     @ NewConsole = false
   Run = uFldMessageHandler @ NewConsole = false
 //  Run = uFldHazardMgr      @ NewConsole = false
-  Run = pAcommsHandler     @ NewConsole = true
+//  Run = pAcommsHandler     @ NewConsole = true
 }
   
 #include plug_uFldNodeBroker.moos

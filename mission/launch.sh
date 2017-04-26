@@ -24,10 +24,10 @@ done
 #-------------------------------------------------------
 #  Part 2: Create the .moos and .bhv files. 
 #-------------------------------------------------------
-VNAME1="archie"      # The first   vehicle community
-VNAME2="betty"       # The second  vehicle community
+VNAME1="0"      # The first   vehicle community
+VNAME2="1"       # The second  vehicle community
 START_POS1="0,0"  
-START_POS2="0,0"  
+START_POS2="105,0"  
 
 # What is nsplug? Type "nsplug --help" or "nsplug --manual"
 nsplug meta_shoreside.moos targ_shoreside.moos -f WARP=$TIME_WARP \
