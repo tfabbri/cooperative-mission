@@ -147,12 +147,12 @@ ProcessConfig = pMarineViewer
   AppTick    = 4
   CommsTick  = 4
 
-  TIFF_FILE            = AerialMIT.tif
-  set_pan_x            = -32
-  set_pan_y            = 200
-  zoom                 = 1.3
-  vehicles_shape_scale = 1.5
-  vehicles_name_mode   = names+shortmode
+  TIFF_FILE              = palmaria.tif
+  set_pan_x            = -1030
+  set_pan_y            = 300
+  zoom                 = 0.38
+  vehicles_shape_scale = 2.0
+  vehicles_name_mode   = names
   marker_viewable_labels = false
 
   appcast_width = 30
@@ -160,16 +160,16 @@ ProcessConfig = pMarineViewer
   appcast_viewable     = true
   appcast_color_scheme = indigo
 
-  SCOPE = HAZARDSET_REPORT
+  //SCOPE = HAZARDSET_REPORT
 
   //ACTION = STATION_ALL = true
 
-  button_one   = DEPLOY_ALL  # DEPLOY_ALL=true 
-  button_one   = MOOS_MANUAL_OVERRIDE_ALL=false 
-  button_one   = RETURN_ALL=false
-  button_one   = HAZARD_SEARCH_START=true
-  button_two   = RETURN_ALL  # RETURN_ALL=true
+  //button_one   = DEPLOY_ALL  # DEPLOY_ALL=true 
+  //button_one   = MOOS_MANUAL_OVERRIDE_ALL=false 
+  //button_one   = RETURN_ALL=false
+  //button_one   = HAZARD_SEARCH_START=true
+  //button_two   = RETURN_ALL  # RETURN_ALL=true
 
-  button_three   = REQ_REPORT  # HAZARDSET_REQUEST_ALL=true
+  //button_three   = REQ_REPORT  # HAZARDSET_REQUEST_ALL=true
 }
 

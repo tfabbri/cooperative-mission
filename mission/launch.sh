@@ -2,7 +2,7 @@
 #-------------------------------------------------------
 #  Part 1: Check for and handle command-line arguments
 #-------------------------------------------------------
-TIME_WARP=1
+TIME_WARP=4
 JUST_MAKE="no"
 HAZARD_FILE="hazards.txt"
 for ARGI; do
@@ -24,14 +24,16 @@ done
 #-------------------------------------------------------
 #  Part 2: Create the .moos and .bhv files. 
 #-------------------------------------------------------
-VNAME1="0"      # The first   vehicle community
+VNAME1="0"       # The first   vehicle community
 VNAME2="1"       # The second  vehicle community
-START_POS1="0,0"  
-START_POS2="105,0"  
+VNAME3="2"       # The second  vehicle community
+START_POS1="5,0"  
+START_POS2="85,0"  
+START_POS3="175,0"  
 
 # What is nsplug? Type "nsplug --help" or "nsplug --manual"
 nsplug meta_shoreside.moos targ_shoreside.moos -f WARP=$TIME_WARP \
-   VNAME="shoreside" HAZARD_FILE=$HAZARD_FILE   VPORT=9000 MODEM_ID=3
+   VNAME="shoreside" HAZARD_FILE=$HAZARD_FILE   VPORT=9000 MODEM_ID=4
 
 nsplug meta_vehicle.moos targ_$VNAME1.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME1      START_POS=$START_POS1                              \
@@ -39,7 +41,12 @@ nsplug meta_vehicle.moos targ_$VNAME1.moos -f WARP=$TIME_WARP  VTYPE=UUV \
 
 nsplug meta_vehicle.moos targ_$VNAME2.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME2      START_POS=$START_POS2                              \
-   VPORT="9002"       SHARE_LISTEN="9302"   MODEM_ID=1 
+   VPORT="9002"       SHARE_LISTEN="9302"   MODEM_ID=2 
+
+nsplug meta_vehicle.moos targ_$VNAME3.moos -f WARP=$TIME_WARP  VTYPE=UUV \
+   VNAME=$VNAME3      START_POS=$START_POS3                              \
+   VPORT="9003"       SHARE_LISTEN="9303"   MODEM_ID=3 
+
 
 if [ ${JUST_MAKE} = "yes" ] ; then
     exit 0
@@ -54,6 +61,9 @@ sleep .25
 printf "Launching $VNAME2 MOOS Community (WARP=%s) \n" $TIME_WARP
 pAntler targ_$VNAME2.moos >& /dev/null &
 sleep .25
+printf "Launching $VNAME3 MOOS Community (WARP=%s) \n" $TIME_WARP
+pAntler targ_$VNAME3.moos >& /dev/null &
+sleep .25
 printf "Launching $SNAME MOOS Community (WARP=%s) \n"  $TIME_WARP
 pAntler targ_shoreside.moos >& /dev/null &
 printf "Done \n"
@@ -61,5 +71,5 @@ printf "Done \n"
 uMAC targ_shoreside.moos
 
 printf "Killing all processes ... \n"
-kill %1 %2 %3 
+kill %1 %2 %3 %4
 printf "Done killing processes.   \n"
