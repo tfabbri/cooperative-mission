@@ -148,9 +148,9 @@ ProcessConfig = pMarineViewer
   CommsTick  = 4
 
   TIFF_FILE              = palmaria.tif
-  set_pan_x            = -1030
-  set_pan_y            = 300
-  zoom                 = 0.38
+  set_pan_x            = -1150
+  set_pan_y            = -1020
+  zoom                 = 0.44
   vehicles_shape_scale = 2.0
   vehicles_name_mode   = names
   marker_viewable_labels = false

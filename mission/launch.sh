@@ -2,7 +2,7 @@
 #-------------------------------------------------------
 #  Part 1: Check for and handle command-line arguments
 #-------------------------------------------------------
-TIME_WARP=4
+TIME_WARP=1
 JUST_MAKE="no"
 HAZARD_FILE="hazards.txt"
 for ARGI; do
@@ -24,16 +24,16 @@ done
 #-------------------------------------------------------
 #  Part 2: Create the .moos and .bhv files. 
 #-------------------------------------------------------
-VNAME1="0"       # The first   vehicle community
-VNAME2="1"       # The second  vehicle community
-VNAME3="2"       # The second  vehicle community
+VNAME1="1"       # The first   vehicle community
+VNAME2="2"       # The second  vehicle community
+VNAME3="3"       # The second  vehicle community
 START_POS1="5,0"  
 START_POS2="85,0"  
 START_POS3="175,0"  
 
 # What is nsplug? Type "nsplug --help" or "nsplug --manual"
 nsplug meta_shoreside.moos targ_shoreside.moos -f WARP=$TIME_WARP \
-   VNAME="shoreside" HAZARD_FILE=$HAZARD_FILE   VPORT=9000 MODEM_ID=4
+   VNAME="shoreside" HAZARD_FILE=$HAZARD_FILE   VPORT=9000 MODEM_ID=0
 
 nsplug meta_vehicle.moos targ_$VNAME1.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME1      START_POS=$START_POS1                              \
