@@ -1,0 +1,23 @@
+FieldName: C
+Radius: 135
+vector_head_size = 50
+vector_edge_color = black
+
+
+x=00,  y=5,   mag=2.4, ang=130
+x=200, y=0,   mag=2.4, ang=0
+x=350, y=25,  mag=2.4, ang=100
+x=450, y=45,  mag=2.4, ang=85
+
+
+x=0,   y=205,  mag=2.4, ang=30
+x=200, y=180,  mag=2.4, ang=300
+x=350, y=225,  mag=2.4, ang=200
+x=450, y=245,  mag=2.4, ang=35
+
+x=0,   y=405,  mag=2.4, ang=130
+x=200, y=380,  mag=2.4, ang=0
+x=350, y=425,  mag=2.4, ang=270
+x=450, y=405,  mag=2.4, ang=185
+
+

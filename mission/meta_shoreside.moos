@@ -23,6 +23,7 @@ Processconfig = ANTLER
   Run = pHostInfo        @ NewConsole = false
   Run = uFldShoreBroker  @ NewConsole = false
   Run = uFldNodeComms    @ NewConsole = false
+  Run = uSimCurrent      @ NewConsole = false
 }
 
 #include plug_pHostInfo.moos
@@ -159,6 +160,7 @@ ProcessConfig = pMarineViewer
 
   appcast_viewable     = true
   appcast_color_scheme = indigo
+  vector_viewable_labels = false
 
   //SCOPE = HAZARDSET_REPORT
 
@@ -173,3 +175,9 @@ ProcessConfig = pMarineViewer
   //button_three   = REQ_REPORT  # HAZARDSET_REQUEST_ALL=true
 }
 
+ProcessConfig = uSimCurrent
+{
+  AppTick   = 10
+  CommsTick = 10
+  CURRENT_FIELD = current_field.cfd
+}
