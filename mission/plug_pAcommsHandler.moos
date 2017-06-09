@@ -101,8 +101,9 @@ ProcessConfig = pTranslator
     comm_tick: 10  
     verbosity: VERBOSE
   }
+  load_proto_file : "./simple_message.proto"
   translator_entry {
-    protobuf_name : "goby.acomms.protobuf.ModemTransmission"
+    protobuf_name : "SimpleMessage"
     trigger {
 	type : TRIGGER_PUBLISH
         moos_var : "TEMP_MESSAGE_IN"
@@ -116,6 +117,4 @@ ProcessConfig = pTranslator
         moos_var  : "ACOMMS_UFIELD_DRIVER_IN"
     }
   }
-  //load_proto_file : "/home/tom/Git/goby/include/goby/acomms/protobuf/modem_message.proto"
-  load_shared_library : "/home/tom/Git/goby/lib/libgoby_pb.so"
 }
