@@ -27,9 +27,11 @@ done
 VNAME1="1"       # The first   vehicle community
 VNAME2="2"       # The second  vehicle community
 VNAME3="3"       # The second  vehicle community
+VNAME4="4"       # The second  vehicle community
 START_POS1="5,0"  
 START_POS2="85,0"  
 START_POS3="175,0"  
+START_POS4="75,0"  
 
 # What is nsplug? Type "nsplug --help" or "nsplug --manual"
 nsplug meta_shoreside.moos targ_shoreside.moos -f WARP=$TIME_WARP \
@@ -47,6 +49,9 @@ nsplug meta_vehicle.moos targ_$VNAME3.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME3      START_POS=$START_POS3                              \
    VPORT="9003"       SHARE_LISTEN="9303"   MODEM_ID=3 
 
+nsplug meta_vehicle.moos targ_$VNAME4.moos -f WARP=$TIME_WARP  VTYPE=UUV \
+   VNAME=$VNAME4      START_POS=$START_POS4                              \
+   VPORT="9004"       SHARE_LISTEN="9304"   MODEM_ID=4 
 
 if [ ${JUST_MAKE} = "yes" ] ; then
     exit 0
@@ -64,6 +69,10 @@ sleep .25
 printf "Launching $VNAME3 MOOS Community (WARP=%s) \n" $TIME_WARP
 pAntler targ_$VNAME3.moos >& /dev/null &
 sleep .25
+printf "Launching $VNAME4 MOOS Community (WARP=%s) \n" $TIME_WARP
+pAntler targ_$VNAME4.moos >& /dev/null &
+sleep .25
+
 printf "Launching $SNAME MOOS Community (WARP=%s) \n"  $TIME_WARP
 pAntler targ_shoreside.moos >& /dev/null &
 printf "Done \n"
