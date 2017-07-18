@@ -16,17 +16,17 @@ Processconfig = ANTLER
   Run = pLogger            @ NewConsole = false
   Run = pNodeReporter      @ NewConsole = false
   Run = pMarinePID         @ NewConsole = false
-//  Run = pHelmIvP           @ NewConsole = false
+$(HELM_ENABLED)  Run = pHelmIvP           @ NewConsole = false
   Run = uProcessWatch      @ NewConsole = false
-  Run = uSimCurrent        @ NewConsole = false
+//  Run = uSimCurrent        @ NewConsole = false
 
   Run = pShare             @ NewConsole = false
   Run = pHostInfo          @ NewConsole = false
   Run = uFldNodeBroker     @ NewConsole = false
   Run = uFldMessageHandler @ NewConsole = false
-//  Run = uFldHazardMgr      @ NewConsole = false
-//  Run = pAcommsHandler     @ NewConsole = true
-//  Run = pTranslator     @ NewConsole = true
+  Run = pAcommsHandler     @ NewConsole = false
+$(ENABLE_TPC)  Run = tpc_moos_app.py    @ NewConsole = true,path=/home/tom/Git/tpc, InhibitMOOSParams = true,ExtraProcessParams=TPCParams
+        TPCParams = -port,$(VPORT)
 }
   
 #include plug_uFldNodeBroker.moos
@@ -51,3 +51,17 @@ Processconfig = uSimCurrent
   CommsTick     = 10 
   current_field = current_field.cfd
 }
+
+ProcessConfig = pHelmIvP
+{
+  AppTick    = 4
+  CommsTick  = 4
+
+  bhv_dir_not_found_ok = true
+  Behaviors  = $(HELM_FILE)
+  Verbose    = true
+  domain     = speed:0:4:21
+  domain     = course:0:359:360
+
+}
+

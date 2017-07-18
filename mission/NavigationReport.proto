@@ -1,0 +1,12 @@
+import "dccl/protobuf/option_extensions.proto";
+
+message NavigationReport {
+    option (dccl.msg) = { codec_version:3
+                          id: 124
+                          max_bytes: 32};
+    required int32 source_addr = 1 [(dccl.field) = {min: 1 max: 32}];
+    required int32 dest_addr = 2 [(dccl.field) = {min: 0 max: 32}];
+    required double time = 3 [(dccl.field) = {codec: "dccl.time2"}];
+    required double x= 10 [(dccl.field) = {min: -10000 max: 10000 precision: 1}];
+    required double y= 11 [(dccl.field) = {min: -10000 max: 10000 precision: 1}];
+}

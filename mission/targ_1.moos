@@ -23,17 +23,17 @@ Processconfig = ANTLER
   Run = pLogger            @ NewConsole = false
   Run = pNodeReporter      @ NewConsole = false
   Run = pMarinePID         @ NewConsole = false
-//  Run = pHelmIvP           @ NewConsole = false
+  Run = pHelmIvP           @ NewConsole = false
   Run = uProcessWatch      @ NewConsole = false
-  Run = uSimCurrent        @ NewConsole = false
+//  Run = uSimCurrent        @ NewConsole = false
 
   Run = pShare             @ NewConsole = false
   Run = pHostInfo          @ NewConsole = false
   Run = uFldNodeBroker     @ NewConsole = false
   Run = uFldMessageHandler @ NewConsole = false
-//  Run = uFldHazardMgr      @ NewConsole = false
-//  Run = pAcommsHandler     @ NewConsole = true
-//  Run = pTranslator     @ NewConsole = true
+  Run = pAcommsHandler     @ NewConsole = false
+//  Run = tpc_moos_app.py    @ NewConsole = true,path=/home/tom/Git/tpc, InhibitMOOSParams = true,ExtraProcessParams=TPCParams
+        TPCParams = -port,9001
 }
   
 //--------------------------------------------------
@@ -50,12 +50,9 @@ ProcessConfig = uFldNodeBroker
   bridge = src=VIEW_POINT
   bridge = src=VIEW_SEGLIST
   bridge = src=APPCAST
-//  bridge = src=UHZ_CLASSIFY_REQUEST
-//  bridge = src=UHZ_SENSOR_REQUEST
-//  bridge = src=UHZ_CONFIG_REQUEST
-//  bridge = src=HAZARDSET_REPORT
   bridge = src=NODE_REPORT_LOCAL,  alias=NODE_REPORT
   bridge = src=NODE_MESSAGE_LOCAL, alias=NODE_MESSAGE
+  bridge = src=CRS_RANGE_REQUEST
 }
 
 //---------------------------------------------------------
@@ -125,7 +122,7 @@ ProcessConfig = uSimMarine
   AppTick   = 10
   CommsTick = 10
 
-  START_POS = 5,0, 0, 0
+  START_POS = 85,150, 0, 0
   PREFIX    = NAV
 
   BUOYANCY_RATE    = 0.025
@@ -148,15 +145,15 @@ ProcessConfig = pMarinePID
   active_start  = true
   
   // Yaw PID controller
-  yaw_pid_kp             = 0.4
-  yaw_pid_kd             = 0.1
-  yaw_pid_ki             = 0.0
+  yaw_pid_kp             = 0.5
+  yaw_pid_kd             = 0.0
+  yaw_pid_ki             = 0.5
   yaw_pid_integral_limit = 0.07
   
   // Speed PID controller
-  speed_pid_kp           = 1.0
+  speed_pid_kp           = 0.8
   speed_pid_kd           = 0.0
-  speed_pid_ki           = 0.0
+  speed_pid_ki           = 1.0
   speed_pid_integral_limit = 0.07
   
   //Pitch PID controller
@@ -226,28 +223,30 @@ ProcessConfig = uProcessWatch
   AppTick   = 2
   CommsTick = 2
   
-  NOWATCH = uXMS*
+  NOWATCH = uXMS*, tpc_moos_app.py
 
-  WATCH_ALL = true
+//  WATCH_ALL = true
 
   WATCH  = uSimMarine
   WATCH  = pShare*
   WATCH  = pLogger
   WATCH  = pNodeReporter
   WATCH  = pMarinePID
-//  WATCH  = pHelmIvP
+  WATCH  = pHelmIvP
 }
+
+
 
 ProcessConfig = pAcommsHandler
 {
   common {   
     log: true  
-    log_path: "./"   
-    log_verbosity: DEBUG1  
+    log_path: "./log"   
+    log_verbosity: DEBUG3  
     app_tick: 10   
     comm_tick: 10  
-    verbosity: VERBOSE 
-    show_gui: false  
+    verbosity: DEBUG3 
+    show_gui: true  
     use_binary_protobuf: false 
     moos_parser_technique: TECHNIQUE_PREFIXED_PROTOBUF_TEXT_FORMAT  
     initializer {   
@@ -293,45 +292,70 @@ ProcessConfig = pAcommsHandler
     slot { 
            src: 1 
            type: DATA  
-           slot_seconds:10
+           slot_seconds: 5
     }
     slot { 
            src: 2 
            type: DATA  
-           slot_seconds:10
+           slot_seconds: 5
+    }
+    slot { 
+           src: 3 
+           type: DATA  
+           slot_seconds: 5
+    }
+    slot {
+        type: DRIVER_SPECIFIC
+        [micromodem.protobuf.type]: MICROMODEM_TWO_WAY_PING
+        src: 2 dest: 3
+        slot_seconds: 1
     }
   }
+
   queue_cfg {
     message_entry {
-      protobuf_name : "goby.acomms.protobuf.ModemTransmission"
-      ack : false
+      protobuf_name : "NavigationReport"
+      ack : true
       blackout_time : 0
-      max_queue : 100
+      max_queue : 5
       newest_first : true
       ttl : 1800
       value_base : 1
+      role : { type: SOURCE_ID field: "source_addr"}
+      role : { type: DESTINATION_ID field: "dest_addr"}
+      role : { type: TIMESTAMP field: "time"}
+    }
+    message_entry {
+      protobuf_name : "SamplingPointReport"
+      ack : true
+      blackout_time : 0
+      max_queue : 10
+      newest_first : true
+      ttl : 1800
+      value_base : 1
+      role : { type: SOURCE_ID field: "source_addr"}
+      role : { type: DESTINATION_ID field: "dest_addr"}
+      role : { type: TIMESTAMP field: "time"}
     }
   }
+
   translator_entry {
-    protobuf_name : "goby.acomms.protobuf.ModemTransmission"
+    protobuf_name : "NavigationReport"
     trigger {
         type : TRIGGER_PUBLISH
-        moos_var : "TRIGGER_IN"
+        moos_var : "TEMP_MESSAGE_IN"
     }
     create {
         technique : TECHNIQUE_COMMA_SEPARATED_KEY_EQUALS_VALUE_PAIRS
-        moos_var  : "MESSAGE_IN"
+        moos_var  : "TEMP_MESSAGE_IN"
     }
     publish {
-        technique : TECHNIQUE_PROTOBUF_NATIVE_ENCODED
-        //technique : TECHNIQUE_PREFIXED_PROTOBUF_TEXT_FORMAT
+        technique : TECHNIQUE_PROTOBUF_TEXT_FORMAT
         moos_var  : "ACOMMS_UFIELD_DRIVER_IN"
     }
   }
-  //load_shared_library : "/home/tom/Git/cooperative-mission/mission/libmodem_message.so"
-  load_proto_file : "/home/tom/Git/goby/include/goby/acomms/protobuf/modem_message.proto"
-  load_shared_library : "/home/tom/Git/goby/lib/libgoby_moos.so"
-  load_shared_library : "/home/tom/Git/goby/lib/libgoby_util.so"
+  load_proto_file : "/home/tom/Git/cooperative-mission/mission/NavigationReport.proto"
+  load_proto_file : "/home/tom/Git/cooperative-mission/mission/SamplingPointReport.proto"
 }
 
 ProcessConfig = pTranslator 
@@ -344,29 +368,24 @@ ProcessConfig = pTranslator
     comm_tick: 10  
     verbosity: VERBOSE
   }
-
-  //load_proto_file : "/home/tom/Git/goby/include/goby/acomms/protobuf/modem_message.proto"
-  load_shared_library : "/home/tom/Git/goby/lib/libgoby_moos.so"
-  load_shared_library : "/home/tom/Git/goby/lib/libgoby_pb.so"
-
-
+  load_proto_file : "./simple_message.proto"
   translator_entry {
-    protobuf_name : "goby.acomms.protobuf.ModemTransmission"
+    protobuf_name : "SimpleMessage"
     trigger {
-        type : TRIGGER_PUBLISH
-        moos_var : "TRIGGER_IN"
+	type : TRIGGER_PUBLISH
+        moos_var : "TEMP_MESSAGE_IN"
     }
     create {
-        technique : TECHNIQUE_COMMA_SEPARATED_KEY_EQUALS_VALUE_PAIRS
-        moos_var  : "MESSAGE_IN"
+	technique : TECHNIQUE_COMMA_SEPARATED_KEY_EQUALS_VALUE_PAIRS
+	moos_var  : "PROVA"
     }
     publish {
-        //technique : TECHNIQUE_PROTOBUF_NATIVE_ENCODED
-        technique : TECHNIQUE_PREFIXED_PROTOBUF_TEXT_FORMAT
+	technique : TECHNIQUE_PREFIXED_PROTOBUF_TEXT_FORMAT
         moos_var  : "ACOMMS_UFIELD_DRIVER_IN"
     }
   }
 }
+
 
 //-------------------------------
 // uSimCurrent config block
@@ -377,4 +396,18 @@ Processconfig = uSimCurrent
   CommsTick     = 10 
   current_field = current_field.cfd
 }
+
+ProcessConfig = pHelmIvP
+{
+  AppTick    = 4
+  CommsTick  = 4
+
+  bhv_dir_not_found_ok = true
+  Behaviors  = 1.bhv
+  Verbose    = true
+  domain     = speed:0:4:21
+  domain     = course:0:359:360
+
+}
+
 

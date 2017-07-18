@@ -27,25 +27,38 @@ done
 VNAME1="1"       # The first   vehicle community
 VNAME2="2"       # The second  vehicle community
 VNAME3="3"       # The second  vehicle community
-START_POS1="5,0"  
-START_POS2="85,0"  
-START_POS3="175,0"  
+START_POS1="85,150"  
+START_POS2="85,1"  
+START_POS3="135,0"  
 
 # What is nsplug? Type "nsplug --help" or "nsplug --manual"
 nsplug meta_shoreside.moos targ_shoreside.moos -f WARP=$TIME_WARP \
-   VNAME="shoreside" HAZARD_FILE=$HAZARD_FILE   VPORT=9000 MODEM_ID=0
+   VNAME="shoreside" HAZARD_FILE=$HAZARD_FILE   VPORT=9000 MODEM_ID=0 \
+   ENABLE_DC="//"    N=3
 
 nsplug meta_vehicle.moos targ_$VNAME1.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME1      START_POS=$START_POS1                              \
-   VPORT="9001"       SHARE_LISTEN="9301"   MODEM_ID=1 
+   VPORT="9001"       SHARE_LISTEN="9301"   MODEM_ID=1                   \
+   HELM_ENABLED=""    ENABLE_TPC="//"       HELM_FILE="1.bhv" 
 
 nsplug meta_vehicle.moos targ_$VNAME2.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME2      START_POS=$START_POS2                              \
-   VPORT="9002"       SHARE_LISTEN="9302"   MODEM_ID=2 
+   VPORT="9002"       SHARE_LISTEN="9302"   MODEM_ID=2                   \
+   HELM_ENABLED="//"    ENABLE_TPC=""         HELM_FILE="targ_bhv_$VNAME2.bhv"
 
 nsplug meta_vehicle.moos targ_$VNAME3.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME3      START_POS=$START_POS3                              \
-   VPORT="9003"       SHARE_LISTEN="9303"   MODEM_ID=3 
+   VPORT="9003"       SHARE_LISTEN="9303"   MODEM_ID=3                   \
+   HELM_ENABLED="//"    ENABLE_TPC=""         HELM_FILE="targ_bhv_$VNAME3.bhv"
+
+nsplug meta_behavior.bhv targ_bhv_$VNAME1.bhv -f START_POS=$START_POS1\
+    VNAME=$VNAME1
+
+nsplug meta_behavior.bhv targ_bhv_$VNAME2.bhv -f START_POS=$START_POS2\
+    VNAME=$VNAME2
+
+nsplug meta_behavior.bhv targ_bhv_$VNAME3.bhv -f START_POS=$START_POS3\
+    VNAME=$VNAME3
 
 
 if [ ${JUST_MAKE} = "yes" ] ; then

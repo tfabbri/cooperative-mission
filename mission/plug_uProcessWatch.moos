@@ -6,16 +6,16 @@ ProcessConfig = uProcessWatch
   AppTick   = 2
   CommsTick = 2
   
-  NOWATCH = uXMS*
+  NOWATCH = uXMS*, tpc_moos_app.py
 
-  WATCH_ALL = true
+//  WATCH_ALL = true
 
   WATCH  = uSimMarine
   WATCH  = pShare*
   WATCH  = pLogger
   WATCH  = pNodeReporter
   WATCH  = pMarinePID
-//  WATCH  = pHelmIvP
+  WATCH  = pHelmIvP
 }
 
 

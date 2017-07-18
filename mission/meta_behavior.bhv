@@ -1,0 +1,24 @@
+//--------    FILE: targ_bhv_$(VNAME).bhv   -------------
+
+initialize   DEPLOY = false
+initialize   RETURN = false
+
+//----------------------------------------------
+Behavior = BHV_Waypoint
+{ 
+  name      = waypt_nav
+  pwt       = 100
+  condition = RETURN = false
+  condition = DEPLOY = true
+  perpetual = true
+  updates   = WAYPOINT_UPDATES
+
+         speed = 2   // meters per second
+        radius = 2.5
+   slip_radius = 3.0
+
+        points = $(START_POS)
+        repeat = 0
+  visual_hints = nextpt_color=red, nextpt_lcolor=green
+  visual_hints = vertex_size=1, edge_size=1
+}

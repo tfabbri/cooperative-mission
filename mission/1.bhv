@@ -1,0 +1,29 @@
+//--------    FILE: 1.bhv   -------------
+
+initialize   DEPLOY = false
+initialize   RETURN = false
+
+//----------------------------------------------
+Behavior=BHV_ConstantHeading
+{
+  name       = const_heading
+  pwt        = 150
+  condition  = DEPLOY = true
+  perpetual  = true
+
+  heading    = 180
+  duration   = no-time-limit
+}
+
+//----------------------------------------------
+Behavior=BHV_ConstantSpeed
+{
+  name       = const_speed
+  pwt        = 100
+  condition  = DEPLOY = true
+  perpetual  = true
+
+  speed      = 2 
+  duration   = no-time-limit
+}
+

@@ -1,0 +1,16 @@
+//--------------------------------------------------
+// uFldContactRangeSensor configuration block from plugin
+
+ProcessConfig = uFldContactRangeSensor
+{
+  AppTick   = 3
+  CommsTick = 3
+
+  push_distance = default = 100
+  //exponential_decay = true
+  sensor_arc = 360
+  
+  //rn_algorithm = uniform,pct=0.12
+  //rn_algorithm = gaussian,sigma=0.12
+  ground_truth = true
+}
