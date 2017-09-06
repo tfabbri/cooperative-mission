@@ -1,38 +1,42 @@
 {
     "graph": {
-        "type": "C",
+        "type": "decentralized",
         "N": 3,
         "agents": [
-                    [   0, 0],
-                    [ 100, 0],
-                    [ 200, 0]
-                ], 
-        "edges":  [
-                    [ 1, 2],
-                    [ 2, 3]
-                ] 
-        
+                    [ 0, 150],
+                    [ 0, 0],
+                    [ 0, 50],
+                    [ 0, 100]
+                ]
     },
     "simulation" : {
-        "T": 2500,
+        "T": 400,
         "dt": 0.01,
         "max_vel": 2.5,
         "area": [500, 500],
-        "exploration_radius" : 45
+        "exploration_radius" : 50,
+        "epsilon": 0.0001
     },
     "control": {
         "task_1": {
-            "d_1":   70,
+            "d_1":   90,
             "d_M":   100, 
-            "gamma_1": 1
+            "gamma_1": 80
         },
        "task_2": {
-            "d_2":  35,
-            "d_m":  20,
-            "gamma_2": 100
+            "d_2":  75,
+            "d_m":  70,
+            "gamma_2": 1
        }, 
        "task_3": {
-            "gamma_3": 1
+            "gamma_3": 1,
+            "sampling_radius": 50,
+            "refs": [
+                        [100, 100],
+                        [130, 100],
+                        [130, 130], 
+                        [100, 130]
+                     ]
        },
        "task_4" : {
             "gamma_4" : 500

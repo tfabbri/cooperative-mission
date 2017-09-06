@@ -24,7 +24,7 @@ $(HELM_ENABLED)  Run = pHelmIvP           @ NewConsole = false
   Run = pHostInfo          @ NewConsole = false
   Run = uFldNodeBroker     @ NewConsole = false
   Run = uFldMessageHandler @ NewConsole = false
-  Run = pAcommsHandler     @ NewConsole = false
+  //Run = pAcommsHandler     @ NewConsole = false
 $(ENABLE_TPC)  Run = tpc_moos_app.py    @ NewConsole = true,path=/home/tom/Git/tpc, InhibitMOOSParams = true,ExtraProcessParams=TPCParams
         TPCParams = -port,$(VPORT)
 }

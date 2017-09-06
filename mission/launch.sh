@@ -27,9 +27,9 @@ done
 VNAME1="1"       # The first   vehicle community
 VNAME2="2"       # The second  vehicle community
 VNAME3="3"       # The second  vehicle community
-START_POS1="85,150"  
-START_POS2="85,1"  
-START_POS3="135,0"  
+START_POS1="85,1"  
+START_POS2="175,1"  
+START_POS3="265,1"  
 
 # What is nsplug? Type "nsplug --help" or "nsplug --manual"
 nsplug meta_shoreside.moos targ_shoreside.moos -f WARP=$TIME_WARP \
@@ -39,7 +39,7 @@ nsplug meta_shoreside.moos targ_shoreside.moos -f WARP=$TIME_WARP \
 nsplug meta_vehicle.moos targ_$VNAME1.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME1      START_POS=$START_POS1                              \
    VPORT="9001"       SHARE_LISTEN="9301"   MODEM_ID=1                   \
-   HELM_ENABLED=""    ENABLE_TPC="//"       HELM_FILE="1.bhv" 
+   HELM_ENABLED="//"    ENABLE_TPC=""       HELM_FILE="1.bhv" 
 
 nsplug meta_vehicle.moos targ_$VNAME2.moos -f WARP=$TIME_WARP  VTYPE=UUV \
    VNAME=$VNAME2      START_POS=$START_POS2                              \
