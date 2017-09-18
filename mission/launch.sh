@@ -27,9 +27,9 @@ done
 VNAME1="1"       # The first   vehicle community
 VNAME2="2"       # The second  vehicle community
 VNAME3="3"       # The second  vehicle community
-START_POS1="85,1"  
-START_POS2="175,1"  
-START_POS3="265,1"  
+START_POS1="80,1"  
+START_POS2="165,2"  
+START_POS3="255,1"  
 
 # What is nsplug? Type "nsplug --help" or "nsplug --manual"
 nsplug meta_shoreside.moos targ_shoreside.moos -f WARP=$TIME_WARP \
